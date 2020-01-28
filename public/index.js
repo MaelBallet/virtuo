@@ -26,6 +26,7 @@ const cars = [{
 //The `price` is updated from step 1 and 2
 //The `commission` is updated from step 3
 //The `options` is useful for step 4
+
 const rentals = [{
   'id': '893a04a3-e447-41fe-beec-9a6bfff6fdb4',
   'driver': {
@@ -158,6 +159,24 @@ const actors = [{
   }]
 }];
 
+function timeprice(rental)
+{
+	var pickupDate = new Date(rental.pickupDate);
+	var returnDate = new Date(rental.returnDate);
+	var days = ((returnDate-pickupDate)/(1000*60*60*24)) + 1;
+	//console.log(days);
+	return days*cars.find(x => x.id === rental.carId).pricePerDay;
+}
+function distanceprice(rental)
+{	
+	return rental.distance*cars.find( x => x.id === rental.carId).pricePerKm;
+}
+rentals.forEach(function(rental,index)
+{
+	this[index].price = timeprice(rental) + distanceprice(rental);
+	console.log("Price rental " +index +" = " +this[index].price);
+},rentals)
+//46,310,1230
 console.log(cars);
 console.log(rentals);
 console.log(actors);
