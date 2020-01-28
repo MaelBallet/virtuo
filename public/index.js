@@ -165,31 +165,42 @@ function timeprice(rental)
 	var returnDate = new Date(rental.returnDate);
 	var days = ((returnDate-pickupDate)/(1000*60*60*24)) + 1;
 	console.log(days);
-	var price = days*cars.find(x => x.id === rental.carId).pricePerDay
+	return  days*cars.find(x => x.id === rental.carId).pricePerDay;
+}
+function distanceprice(rental)
+{	
+	return rental.distance*cars.find( x => x.id === rental.carId).pricePerKm;
+}
+function commission(rental)
+{
+	rental.insuran
+}
+rentals.forEach(function(rental,index)
+{
+	this[index].price = timeprice(rental) + distanceprice(rental);
+	this[index].price = decreasingprice(rental);
+	console.log("Price rental " +index +" = " +this[index].price);
+},rentals)
+
+function decreasingprice(rental)
+{
+	var pickupDate = new Date(rental.pickupDate);
+	var returnDate = new Date(rental.returnDate);
+	var days = ((returnDate-pickupDate)/(1000*60*60*24)) + 1;
+	var price = rental.price;
 	if(days > 1)
 	{ price = price*90/100; }
 	else if(days > 4)
 	{ price = price*70/100; }
 	else if(days > 10)
 	{ price= price *50/100; }
-	
 	return price;
 }
-function distanceprice(rental)
-{	
-	return rental.distance*cars.find( x => x.id === rental.carId).pricePerKm;
-}
-rentals.forEach(function(rental,index)
-{
-	this[index].price = timeprice(rental) + distanceprice(rental);
-	console.log("Price rental " +index +" = " +this[index].price);
-},rentals)
-//Step 2
 
 
 
 //46,310,1230
-//46,288,1152
+//46,279,1107
 console.log(cars);
 console.log(rentals);
 console.log(actors);
