@@ -173,12 +173,28 @@ function distanceprice(rental)
 }
 function commission(rental)
 {
-	rental.insuran
+	var pickupDate = new Date(rental.pickupDate);
+	var returnDate = new Date(rental.returnDate);
+	var days = ((returnDate-pickupDate)/(1000*60*60*24)) + 1;
+	
+	rental.commission = rental.price*30/100;
+	console.log("commission : " +rental.commission)
+	
+	rental.insurance = rental.commission/2
+	console.log("insurance : " +rental.insurance)
+	
+	rental.treasury = days
+	console.log("treasury : " +rental.treasury)
+	
+	rental.virtuo = (rental.commission/2)-days
+	console.log("virtuo : " +rental.virtuo)
+	
 }
 rentals.forEach(function(rental,index)
 {
 	this[index].price = timeprice(rental) + distanceprice(rental);
 	this[index].price = decreasingprice(rental);
+	commission(rental);
 	console.log("Price rental " +index +" = " +this[index].price);
 },rentals)
 
